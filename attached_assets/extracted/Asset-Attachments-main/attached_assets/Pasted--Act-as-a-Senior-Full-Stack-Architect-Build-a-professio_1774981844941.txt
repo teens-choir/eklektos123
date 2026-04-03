@@ -1,0 +1,119 @@
+"Act as a Senior Full-Stack Architect. Build a professional Flask application for the 'Teenagers Choir' managed via GitHub.
+
+
+
+1. THE DUAL-GATE AUTHENTICATION (Admins vs. Members)
+
+Hardcoded Admins: Manually initialize the database with two specific Admin accounts:
+
+Username: eyuelg | Password: choir2123
+
+Username: yegetaa | Password: choir3212
+
+username:fiker|password:choir6712
+
+username:lidiya|password:choir6745
+
+And the admins can change their own passwords anytime
+
+The Member Register Button: >    - Create a Register Button on the landing page specifically for Members.
+
+When a teenager registers, they must provide a Username and Password.
+
+and the members also can change the password anytime
+
+Default Role: All self-registered users are assigned role='member' and voice_part='Normal'.
+
+The Login Logic: Create a single /login route.
+
+If the user is an Admin, redirect them to the /admin/dashboard.
+
+If the user is a Member, redirect them to the /member/home.
+
+2. THE ADMIN CONTROL TOWER (Separate View)
+
+Layout: A high-contrast, professional 'Command Center' UI for the two Admins.
+
+Feature - Voice Part Assigning: An Admin-only page displaying a list of all registered members. Admins can click a button to change a member's status to Soprano (Red), Alto (Purple), or Normal (Gold).
+
+Feature - Attendance 'Hold': A dynamic grid where Admins manually toggle 'Present' or 'Absent' for the rehearsal. Use JavaScript Fetch to sync data instantly to the database.
+
+Feature - Divine Instructions: A broadcast tool for Admins to send messages to the whole choir or specific voice groups.
+
+Feature - Music Stand Manager: A portal to upload music links (PDFs/MP3s) and tag them for specific voice parts.
+
+3. THE MEMBER 'SANCTUARY' (Soprano Red Identity)
+
+Soprano Experience: If a member is assigned to Soprano, the entire website UI must shift to a Vivid Red (#FF3B30) theme.
+
+Visuals: Glowing red borders, red-tinted glassmorphism cards, and red 'Urgent' instruction alerts.
+
+Normal Experience: If the member is 'Normal', use a Royal Gold (#D4AF37) theme with white/glass accents.
+
+The Music Rack: A grid that only shows the songs the Admins have authorized for that user's voice part.
+
+Instruction Feed: A vertical scrolling list of commands from the Admins.
+
+Attendance Progress: A stylish SVG circular gauge tracking their rehearsal attendance.
+
+4. TECHNICAL SPECIFICATIONS & STYLE
+
+Glassmorphism: Every card and panel must use backdrop-filter: blur(20px) and background: rgba(255, 255, 255, 0.05).
+
+Animations: Use CSS @keyframes for a 'Fade-In & Slide-Up' effect when any page loads.
+
+Database: Use SQLAlchemy with four tables: User, Music, Attendance, and Messages.
+
+Security: Use Werkzeug for password hashing. Ensure Members cannot access /admin routes by checking current_user.role == 'admin' on every Admin route.
+
+Environment: Optimize the CSS for a Ryzen 7 laptop screen while ensuring the Member side is fully responsive for mobile phones."
+
+📂 Your GitHub Project Structure
+
+Since you are starting this fresh on GitHub, organize your files like this to keep the "Split" clean:
+
+
+
+Plaintext
+
+
+
+/teenagers-choir
+
+│
+
+├── app.py                 # Flask routes & Login/Redirect logic
+
+├── models.py              # User (Admin/Member), Music, and Message tables
+
+├── static/
+
+│   ├── css/
+
+│   │   ├── base.css       # Shared layout and fonts
+
+│   │   ├── admin.css      # The sharp Admin Control Tower style
+
+│   │   └── member.css     # Soprano Red and Royal Gold themes
+
+│   └── js/
+
+│       ├── attendance.js  # JavaScript for Admin attendance clicks
+
+│       └── main.js        # Smooth animations
+
+└── templates/
+
+    ├── login.html         # Login/Register entry point
+
+    ├── admin/             # ALL Admin-only HTML files go here
+
+    │   └── dashboard.html
+
+    └── member/            # ALL Member-only HTML files go here
+
+        └── home.html
+
+💡 Software Engineer Tip for the Admins:
+
+Since you have the usernames and passwords ready (eyuelg,fiker,lidiya and yegetaa), make sure your app.py has a function that runs the first time you start the app to check if these two users exist in the database. If not, the script should create them automatically so you can log in as Admin immediately.
