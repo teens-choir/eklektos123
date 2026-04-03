@@ -41,7 +41,9 @@ jobs:
       - name: Build
         run: pnpm --filter @workspace/choir-app exec vite build --config vite.config.github.ts
         env:
-          BASE_PATH: /
+          # For GitHub Pages project sites the base is /<repo-name>/
+          # Change this to / if you're using a custom domain or username.github.io repo
+          BASE_PATH: /${{ github.event.repository.name }}/
 
       - name: Add .nojekyll and 404.html
         run: |

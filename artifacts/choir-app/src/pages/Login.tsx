@@ -16,10 +16,16 @@ export default function Login() {
   const loginMutation = useLogin();
   const registerMutation = useRegister();
 
+  const getDestination = (role: string) => {
+    const stored = localStorage.getItem("choir-device");
+    const hasDevice = stored === "pc" || stored === "tablet" || stored === "mobile";
+    if (!hasDevice) return "/device-select";
+    return role === "admin" ? "/admin/dashboard" : "/member/home";
+  };
+
   useEffect(() => {
     if (user) {
-      if (user.role === "admin") setLocation("/admin/dashboard");
-      else setLocation("/member/home");
+      setLocation(getDestination(user.role));
     }
   }, [user, setLocation]);
 
@@ -39,7 +45,7 @@ export default function Login() {
     if (isLogin) {
       loginMutation.mutate(payload, {
         onSuccess: (res) => {
-          setLocation(res.role === "admin" ? "/admin/dashboard" : "/member/home");
+          setLocation(getDestination(res.role));
         },
         onError: (err: any) => {
           setErrorMsg(err?.error || "Login failed");
@@ -48,7 +54,7 @@ export default function Login() {
     } else {
       registerMutation.mutate(payload, {
         onSuccess: () => {
-          setLocation("/member/home");
+          setLocation("/device-select");
         },
         onError: (err: any) => {
           setErrorMsg(err?.error || "Registration failed");

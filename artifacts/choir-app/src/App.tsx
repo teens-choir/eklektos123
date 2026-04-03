@@ -2,8 +2,10 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { DeviceProvider } from "@/lib/device";
 
 import Login from "@/pages/Login";
+import DeviceSelect from "@/pages/DeviceSelect";
 import AdminDashboard from "@/pages/admin/Dashboard";
 import AdminMembers from "@/pages/admin/Members";
 import AdminAttendance from "@/pages/admin/Attendance";
@@ -30,6 +32,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Login} />
+      <Route path="/device-select" component={DeviceSelect} />
       <Route path="/admin/dashboard" component={AdminDashboard} />
       <Route path="/admin/members" component={AdminMembers} />
       <Route path="/admin/attendance" component={AdminAttendance} />
@@ -55,10 +58,12 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
+        <DeviceProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+          <Toaster />
+        </DeviceProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );
